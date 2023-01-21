@@ -6,27 +6,24 @@ class Graph:
     def __init__(self, num_of_nodes: int, paths: dict):
         self.num_of_nodes = num_of_nodes
         self.paths = paths
-        self.visited_nodes = [0 for i in range(0, num_of_nodes)]
+        self.visited_nodes = [0 for i in range(0, num_of_nodes + 1)]
 
     def clear_visited_nodes(self):
         for node in self.visited_nodes:
             node = 0
 
 
-def dist(a, b):
-    return math.sqrt(pow(a[0] - b[0], 2) + pow(a[1] - b[1], 2))
-
-
 # nodes: {nodeId: [x, y]}
 class EuclideanGraph(Graph):
     def __init__(self, num_of_nodes: int, nodes: dict):
-        self.num_of_nodes = num_of_nodes
+        super().__init__(num_of_nodes, {})
         self.nodes = nodes
-        self.paths = {}
         self.generate_paths(nodes)
-        self.visited_nodes = [0 for i in range(0, num_of_nodes)]
 
     def generate_paths(self, nodes: dict):
+        def dist(a, b):
+            return math.sqrt(pow(a[0] - b[0], 2) + pow(a[1] - b[1], 2))
+
         for nodeId in nodes:
             if not self.paths.get(nodeId):
                 self.paths[nodeId] = []
@@ -61,8 +58,8 @@ def nearest_neighbour_algorithm(graph: Graph):
 
     graph.clear_visited_nodes()
 
-    # every node will be taken exactly once, so we are choosing node 0 to start hamiltionian cycle
-    current_node_id = 0
+    # every node will be taken exactly once, so we are choosing node 1 to start hamiltionian cycle
+    current_node_id = 1
     visited_list = [current_node_id]
     graph.visited_nodes[current_node_id] = 1
 
