@@ -30,19 +30,10 @@ def euclidean_graph_example():
 
 
 def tsplib_import_example():
-    data_coord = tsplib95.load(file1_coord)
-    data_coord2 = tsplib95.load(file3_coord)
-    g = graph.EuclideanGraph(data_coord.dimension, data_coord.node_coords)
-    g2 = graph.EuclideanGraph(data_coord2.dimension, data_coord2.display_data)
+    gowno = get_graph2()
 
-    for line in data_coord2.edge_weights:
-        node1 = len(line) + 1
-        for i in range(len(line)):
-            node2 = i + 1
-            g2.set_weight(node1, node2, line[i])
-
-    for node in g2.paths:
-        print('\t', node, ': ', g2.paths[node])
+    for node in gowno.paths:
+        print('\t', node, ': ', gowno.paths[node])
 
 
 
