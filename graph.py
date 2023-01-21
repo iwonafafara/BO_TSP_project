@@ -1,6 +1,7 @@
 import math
 
 
+# paths: {node_src: [[node_dest, weight], [node_dest, weight]]}
 class Graph:
     def __init__(self, num_of_nodes: int, paths: dict):
         self.num_of_nodes = num_of_nodes
