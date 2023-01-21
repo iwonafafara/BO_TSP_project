@@ -38,6 +38,15 @@ class EuclideanGraph(Graph):
                 distance = dist(nodes[nodeId], nodes[nodeId2])
                 self.paths[nodeId].append([nodeId2, distance])
 
+    def set_weight(self, node1, node2, weight):
+        def replace_weight(list, node, weight):
+            for item in list:
+                if node == item[0]:
+                    item[1] = weight
+                    break
+        replace_weight(self.paths[node1], node2, weight)
+        replace_weight(self.paths[node2], node1, weight)
+
 
 def nearest_neighbour_algorithm(graph: Graph):
     def sorting_comparator(weight_record: []):

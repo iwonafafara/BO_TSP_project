@@ -33,15 +33,22 @@ def tsplib_import_example():
     data_coord = tsplib95.load(file1_coord)
     data_coord2 = tsplib95.load(file3_coord)
     g = graph.EuclideanGraph(data_coord.dimension, data_coord.node_coords)
-    g2 = graph.EuclideanGraph(data_coord2.dimension,data_coord2.node_coords)
+    g2 = graph.EuclideanGraph(data_coord2.dimension, data_coord2.display_data)
 
-    print(g.num_of_nodes)
-    print(g.nodes)
-    print(nearest_neighbour_algorithm(g))
+    for line in data_coord2.edge_weights:
+        node1 = len(line) + 1
+        for i in range(len(line)):
+            node2 = i + 1
+            g2.set_weight(node1, node2, line[i])
+
+    for node in g2.paths:
+        print('\t', node, ': ', g2.paths[node])
+
+
 
 
 if __name__ == '__main__':
-    basic_graph_example()
-    euclidean_graph_example()
+    # basic_graph_example()
+    # euclidean_graph_example()
     tsplib_import_example()
 
