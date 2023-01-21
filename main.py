@@ -1,6 +1,8 @@
-from graph import Graph, EuclideanGraph
+import graph
+from graph import Graph, EuclideanGraph, nearest_neighbour_algorithm
+from import_data import *
 
-if __name__ == '__main__':
+def basic_graph_example():
     g = Graph(8, {
         0: [[1, 2], [2, 2], [3, 4], [4, 3]],
         1: [[0, 2], [2, 2], [5, 1], [6, 1]],
@@ -16,10 +18,30 @@ if __name__ == '__main__':
     for node in g.paths:
         print('\t', node, ': ', g.paths[node])
 
-    g2 = EuclideanGraph(5, {0: [4, 1], 1: [2, 1], 2: [1, 3], 3: [5, 3], 4: [3, 4]})
-    print('Num of nodes: ', g2.num_of_nodes)
-    print('Nodes: ', g2.nodes)
+
+def euclidean_graph_example():
+    g = EuclideanGraph(5, {0: [4, 1], 1: [2, 1], 2: [1, 3], 3: [5, 3], 4: [3, 4]})
+    print('Num of nodes: ', g.num_of_nodes)
+    print('Nodes: ', g.nodes)
     print('Visited: ', g.visited_nodes)
     print('Vertices: ')
-    for node in g2.paths:
-        print('\t', node, ': ', g2.paths[node])
+    for node in g.paths:
+        print('\t', node, ': ', g.paths[node])
+
+
+def tsplib_import_example():
+    data_coord = tsplib95.load(file1_coord)
+    data_coord2 = tsplib95.load(file3_coord)
+    g = graph.EuclideanGraph(data_coord.dimension, data_coord.node_coords)
+    g2 = graph.EuclideanGraph(data_coord2.dimension,data_coord2.node_coords)
+
+    print(g.num_of_nodes)
+    print(g.nodes)
+    print(nearest_neighbour_algorithm(g))
+
+
+if __name__ == '__main__':
+    basic_graph_example()
+    euclidean_graph_example()
+    tsplib_import_example()
+
