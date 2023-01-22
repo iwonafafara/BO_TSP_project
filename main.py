@@ -1,5 +1,6 @@
 import graph
-from graph import Graph, EuclideanGraph, nearest_neighbour_algorithm, optimization_2_opt, optimization_2_opt_with_k_deterioration
+from graph import Graph, EuclideanGraph
+from algos import nearest_neighbour_algorithm, optimization_2_opt, optimization_2_opt_with_k_deterioration
 from import_data import get_graph1, get_graph2, get_graph3, get_graph4, get_graph5, get_graph6, get_graph7
 from plot import plot_graph
 from timer import start_time, stop_time, measure_time
