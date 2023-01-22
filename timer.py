@@ -15,7 +15,7 @@ def stop_time():
     global time_stop
     time_stop = time.time()
     current_time = time_stop - time_start
-    print(f"Time taken: {current_time * 10 ** 3:.03f}ms")
+    # print(f"Time taken: {current_time * 10 ** 3:.03f}ms")
     return current_time * 10 ** 3
 
 

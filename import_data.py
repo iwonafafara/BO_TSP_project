@@ -36,7 +36,7 @@ def get_graph3():
     file3_coord = graphs_directory + 'bayg29.tsp'
     data_coord3 = tsplib95.load(file3_coord)
     g = graph.EuclideanGraph(data_coord3.dimension, data_coord3.display_data)
-    # set_weights(data_coord3.edge_weights, g)
+    set_weights(data_coord3.edge_weights, g)
     return g
 
 

@@ -1,8 +1,8 @@
 import graph
-from graph import Graph, EuclideanGraph, nearest_neighbour_algorithm, optimization_2_opt
+from graph import Graph, EuclideanGraph, nearest_neighbour_algorithm, optimization_2_opt, optimization_2_opt_with_k_deterioration
 from import_data import get_graph1, get_graph2, get_graph3, get_graph4, get_graph5, get_graph6, get_graph7
 from plot import plot_graph
-from timer import start_time, stop_time, stop_time, measure_time
+from timer import start_time, stop_time, measure_time
 
 
 def basic_graph_example():
@@ -37,32 +37,31 @@ def euclidean_graph_example():
 
 
 def tsplib_import_example():
-    g = get_graph1()
+    g = get_graph2()
     print(nearest_neighbour_algorithm(g))
 
     cycle = nearest_neighbour_algorithm(g)
     print(cycle)
-    plot_graph(g, cycle)
 
-    start_time()
-    times = []
+    # plot_graph(g, cycle)
+    timers = optimization_2_opt_with_k_deterioration(g, cycle, k=10, iterations_until_break_threshold=5)
+    print(timers)
 
-    for i in range(15):
-        returned_dict = optimization_2_opt(g, cycle)
-        print(returned_dict)
-        cycle = returned_dict['path']
-        plot_graph(g, cycle)
-        times.append(measure_time())
 
-    print(times)
-    print(g.nodes)
+def old_opt_2():
+    g = get_graph2()
+    print(nearest_neighbour_algorithm(g))
+
+    cycle = nearest_neighbour_algorithm(g)
     print(cycle)
 
-    plot_graph(g, cycle)
+    timers = optimization_2_opt(g, cycle, 5)
+    print(timers)
 
 
 if __name__ == '__main__':
     # basic_graph_example()
     # euclidean_graph_example()
     tsplib_import_example()
+    old_opt_2()
 

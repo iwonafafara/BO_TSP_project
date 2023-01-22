@@ -1,4 +1,5 @@
 import math
+from timer import start_time, stop_time, measure_time
 
 
 # paths: {node_src: [[node_dest, weight], [node_dest, weight]]}
@@ -34,9 +35,9 @@ class Graph:
 
     def calculate_cost(self, path: list):
         def find_weight(source, destination):
-            for tuple in self.paths[source]:
-                if tuple[0] == destination:
-                    return tuple[1]
+            for pair in self.paths[source]:
+                if pair[0] == destination:
+                    return pair[1]
 
         cost = 0
         for i in range(self.num_of_nodes):
@@ -123,7 +124,27 @@ def get_indekses_for_2_opt(size):
             for j in range(i + 2, size))
 
 
-def optimization_2_opt(graph: Graph, path: list):
+def optimization_2_opt(graph: Graph, cycle: list, iterations_until_break_threshold=10):
+    old_cost = -1
+    iterations_until_break = iterations_until_break_threshold
+
+    times = []
+    start_time()
+    while iterations_until_break:
+        returned_dict = optimization_2_opt_worker(graph, cycle)
+        print(returned_dict)
+        cycle = returned_dict['path']
+
+        if old_cost == returned_dict['cost']:   # ToDo Fix this comparison of floats
+            iterations_until_break -= 1
+        else:
+            old_cost = returned_dict['cost']
+            iterations_until_break = iterations_until_break_threshold
+        times.append(measure_time())
+    return times
+
+
+def optimization_2_opt_worker(graph: Graph, path: list):
     best_cost = graph.calculate_cost(path)
     best_path = path
     for i, j in get_indekses_for_2_opt(graph.num_of_nodes):
@@ -135,3 +156,61 @@ def optimization_2_opt(graph: Graph, path: list):
     return {'cost': best_cost, 'path': best_path}
 
 
+def optimization_2_opt_with_k_deterioration(graph: Graph, cycle: list, k: int, iterations_until_break_threshold=10):
+    returned = {'cost': [0], 'path': [cycle]}
+    old_cost = -1
+    iterations_until_break = iterations_until_break_threshold
+
+    times = []
+    start_time()
+    while iterations_until_break:
+        temp_ret = {'cost': [], 'path': []}
+        for path in returned['path']:
+            temp = optimization_2_opt_with_k_deterioration_worker(graph, path, k)
+            temp_ret['cost'] = temp_ret['cost'] + temp['cost']
+            temp_ret['path'] = temp_ret['path'] + temp['path']
+
+        # Choose k-best paths and values to start calculations in next iteration
+        returned['cost'] = []
+        returned['path'] = []
+        for x in range(k):
+            if len(temp_ret['cost']) > 0:
+                min_cost = min(temp_ret['cost'])
+                index = temp_ret['cost'].index(min_cost)
+                if min_cost not in returned['cost']:
+                    returned['cost'].append(temp_ret['cost'][index])
+                    returned['path'].append(temp_ret['path'][index])
+                temp_ret['cost'].remove(temp_ret['cost'][index])
+                temp_ret['path'].remove(temp_ret['path'][index])
+
+        print('Min cost: ', min(returned['cost']), ' len: ', len(returned['cost']), ' returned: ', returned)
+        if old_cost == min(returned['cost']):   # ToDo Fix this comparison of floats
+            iterations_until_break -= 1
+        else:
+            old_cost = min(returned['cost'])
+            iterations_until_break = iterations_until_break_threshold
+        times.append(measure_time())
+    return times
+
+
+def optimization_2_opt_with_k_deterioration_worker(graph: Graph, path: list, considered_items_no=3):
+    def update_paths(given_costs, given_paths, new_cost, new_path):
+        if len(given_costs) < considered_items_no:
+            given_costs.append(new_cost)
+            given_paths.append(new_path)
+        else:
+            max_old_cost = max(given_costs)
+            if max_old_cost > new_cost:
+                index = given_costs.index(max_old_cost)
+                given_costs.insert(index, new_cost)
+                given_paths.insert(index, new_path)
+        return given_costs, given_paths
+
+    best_costs = [graph.calculate_cost(path)]
+    best_paths = [path]
+    for i, j in get_indekses_for_2_opt(graph.num_of_nodes):
+        current_path = get_2_opt_reversed_path(path, i, j)
+        current_cost = graph.calculate_cost(current_path)
+        best_costs, best_paths = update_paths(best_costs, best_paths, current_cost, current_path)
+
+    return {'cost': best_costs, 'path': best_paths}
