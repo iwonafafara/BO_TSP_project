@@ -42,3 +42,20 @@ def get_graph3():
 
 def get_graph4():
     return get_normal_graph_with_weights('gr48.tsp')
+
+
+def get_graph5():
+    file5_coord = graphs_directory + 'u1060.tsp'
+    data_coord5 = tsplib95.load(file5_coord)
+    return graph.EuclideanGraph(data_coord5.dimension, data_coord5.node_coords)
+
+
+def get_graph6():
+    file6_coord = graphs_directory + 'a280.tsp'
+    data_coord6 = tsplib95.load(file6_coord)
+    return graph.EuclideanGraph(data_coord6.dimension, data_coord6.node_coords)
+
+def get_graph7():
+    file7_coord = graphs_directory + 'kroA100.tsp'
+    data_coord7 = tsplib95.load(file7_coord)
+    return graph.EuclideanGraph(data_coord7.dimension, data_coord7.node_coords)
