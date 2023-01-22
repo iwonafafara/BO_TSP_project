@@ -111,18 +111,27 @@ def nearest_neighbour_algorithm(graph: Graph):
     return visited_list
 
 
+def get_2_opt_reversed_path(path, i, j):
+    reversed_list = path[i:j]
+    reversed_list.reverse()
+    return path[0:i] + reversed_list + path[j:]
+
+
+def get_indekses_for_2_opt(size):
+    return ((i, j)
+            for i in range(1, size)
+            for j in range(i + 2, size))
+
+
 def optimization_2_opt(graph: Graph, path: list):
     best_cost = graph.calculate_cost(path)
     best_path = path
-    for i in range(1, graph.num_of_nodes):
-        for j in range(i + 2, graph.num_of_nodes):
-            reversed_list = path[i:j]
-            reversed_list.reverse()
-            current_path = path[0:i] + reversed_list + path[j:]
-            current_cost = graph.calculate_cost(current_path)
-            if current_cost < best_cost:
-                best_cost = current_cost
-                best_path = current_path
+    for i, j in get_indekses_for_2_opt(graph.num_of_nodes):
+        current_path = get_2_opt_reversed_path(path, i, j)
+        current_cost = graph.calculate_cost(current_path)
+        if current_cost < best_cost:
+            best_cost = current_cost
+            best_path = current_path
     return {'cost': best_cost, 'path': best_path}
 
 
