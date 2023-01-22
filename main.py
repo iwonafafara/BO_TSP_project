@@ -2,6 +2,7 @@ import graph
 from graph import Graph, EuclideanGraph, nearest_neighbour_algorithm
 from import_data import *
 
+
 def basic_graph_example():
     g = Graph(8, {
         0: [[1, 2], [2, 2], [3, 4], [4, 3]],
@@ -30,11 +31,11 @@ def euclidean_graph_example():
 
 
 def tsplib_import_example():
-    gowno = get_graph2()
+    gowno = get_graph4()
 
-    for node in gowno.paths:
-        print('\t', node, ': ', gowno.paths[node])
-
+    # for node in gowno.paths:
+    #     print('\t', node, ': ', gowno.paths[node])
+    print(nearest_neighbour_algorithm(gowno))
 
 
 

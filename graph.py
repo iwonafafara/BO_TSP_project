@@ -3,7 +3,7 @@ import math
 
 # paths: {node_src: [[node_dest, weight], [node_dest, weight]]}
 class Graph:
-    def __init__(self, num_of_nodes: int, paths: dict):
+    def __init__(self, num_of_nodes: int, paths={}):
         self.num_of_nodes = num_of_nodes
         self.paths = paths
         self.visited_nodes = [0 for i in range(0, num_of_nodes + 1)]
@@ -11,6 +11,26 @@ class Graph:
     def clear_visited_nodes(self):
         for node in self.visited_nodes:
             node = 0
+
+    def set_weight(self, node1, node2, weight):
+        def replace_weight(list, node, weight):
+            for item in list:
+                if node == item[0]:
+                    item[1] = weight
+                    break
+
+        if not self.paths:
+            self.initialize_empty_paths()
+
+        replace_weight(self.paths[node1], node2, weight)
+        replace_weight(self.paths[node2], node1, weight)
+
+    def initialize_empty_paths(self):
+        for nodeId in range(1, self.num_of_nodes + 1):
+            self.paths[nodeId] = []
+            for nodeId2 in range(1, self.num_of_nodes + 1):
+                if not nodeId == nodeId2:
+                    self.paths[nodeId].append([nodeId2, 0])
 
 
 # nodes: {nodeId: [x, y]}
@@ -35,14 +55,7 @@ class EuclideanGraph(Graph):
                 distance = dist(nodes[nodeId], nodes[nodeId2])
                 self.paths[nodeId].append([nodeId2, distance])
 
-    def set_weight(self, node1, node2, weight):
-        def replace_weight(list, node, weight):
-            for item in list:
-                if node == item[0]:
-                    item[1] = weight
-                    break
-        replace_weight(self.paths[node1], node2, weight)
-        replace_weight(self.paths[node2], node1, weight)
+
 
 
 def nearest_neighbour_algorithm(graph: Graph):

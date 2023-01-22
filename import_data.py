@@ -15,6 +15,15 @@ def get_graph1():
 def get_graph2():
     file2_coord = graphs_directory + 'gr24.tsp'
     data_coord2 = tsplib95.load(file2_coord)
+    g = graph.Graph(data_coord2.dimension)
+
+    for line in data_coord2.edge_weights:
+        node1 = len(line) + 1
+        for i in range(len(line)):
+            node2 = i + 1
+            g.set_weight(node1, node2, line[i])
+
+    return g
 
 
 def get_graph3():
@@ -33,3 +42,12 @@ def get_graph3():
 def get_graph4():
     file4_coord = graphs_directory + 'gr48.tsp'
     data_coord4 = tsplib95.load(file4_coord)
+    g = graph.Graph(data_coord4.dimension)
+
+    for line in data_coord4.edge_weights:
+        node1 = len(line) + 1
+        for i in range(len(line)):
+            node2 = i + 1
+            g.set_weight(node1, node2, line[i])
+
+    return g
