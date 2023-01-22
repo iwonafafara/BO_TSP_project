@@ -14,3 +14,4 @@ def plot_graph(graph: EuclideanGraph, path: list):
     plt.title('Graf zoptymalizowany dla ' + str(graph.num_of_nodes) + ' węzłów')
     plt.show()
 
+

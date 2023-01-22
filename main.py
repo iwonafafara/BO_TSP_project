@@ -2,6 +2,7 @@ import graph
 from graph import Graph, EuclideanGraph, nearest_neighbour_algorithm, optimization_2_opt
 from import_data import get_graph1, get_graph2, get_graph3, get_graph4
 from plot import plot_graph
+from timer import start_time, stop_time, stop_time, measure_time
 
 
 def basic_graph_example():
@@ -36,19 +37,24 @@ def euclidean_graph_example():
 
 
 def tsplib_import_example():
-    g = get_graph3()
+    g = get_graph1()
     print(nearest_neighbour_algorithm(g))
 
     cycle = nearest_neighbour_algorithm(g)
     print(cycle)
     plot_graph(g, cycle)
 
-    for i in range(4):
+    start_time()
+    times = []
+
+    for i in range(15):
         returned_dict = optimization_2_opt(g, cycle)
         print(returned_dict)
         cycle = returned_dict['path']
-        # plot_graph(g, cycle)
+        plot_graph(g, cycle)
+        times.append(measure_time())
 
+    print(times)
     print(g.nodes)
     print(cycle)
 
