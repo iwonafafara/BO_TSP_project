@@ -2,7 +2,7 @@ import tsplib95
 import graph
 
 
-#odczytanie i korzystanie z danych potrzebnych do stworzenia grafów
+# odczytanie i korzystanie z danych potrzebnych do stworzenia grafów
 graphs_directory = 'graphs\\'
 
 
@@ -54,6 +54,7 @@ def get_graph6():
     file6_coord = graphs_directory + 'a280.tsp'
     data_coord6 = tsplib95.load(file6_coord)
     return graph.EuclideanGraph(data_coord6.dimension, data_coord6.node_coords)
+
 
 def get_graph7():
     file7_coord = graphs_directory + 'kroA100.tsp'

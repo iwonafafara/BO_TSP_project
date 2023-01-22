@@ -38,19 +38,18 @@ def euclidean_graph_example():
 
 
 def tsplib_import_example():
-    g = get_graph2()
+    g = get_graph3()
     print(nearest_neighbour_algorithm(g))
 
     cycle = nearest_neighbour_algorithm(g)
     print(cycle)
 
-    # plot_graph(g, cycle)
     timers = optimization_2_opt_with_k_deterioration(g, cycle, k=10, iterations_until_break_threshold=5)
     print(timers)
 
 
 def old_opt_2():
-    g = get_graph2()
+    g = get_graph3()
     print(nearest_neighbour_algorithm(g))
 
     cycle = nearest_neighbour_algorithm(g)
@@ -65,4 +64,3 @@ if __name__ == '__main__':
     # euclidean_graph_example()
     tsplib_import_example()
     old_opt_2()
-

@@ -1,5 +1,6 @@
 from graph import Graph, EuclideanGraph
-from timer import start_time, stop_time, measure_time
+from timer import start_time, measure_time
+from plot import plot_graph
 
 
 def nearest_neighbour_algorithm(graph: Graph):
@@ -62,19 +63,30 @@ def optimization_2_opt(graph: Graph, cycle: list, iterations_until_break_thresho
     old_cost = -1
     iterations_until_break = iterations_until_break_threshold
 
+    plot_graph(graph, cycle,
+               'Wykres grafu przed optymalizacją 2-opt bez pogorszenia, \n nodes = ' + str(graph.num_of_nodes))
+    iteration_no = 1
     times = []
     start_time()
     while iterations_until_break:
         returned_dict = optimization_2_opt_worker(graph, cycle)
         print(returned_dict)
         cycle = returned_dict['path']
+        plot_graph(graph, cycle,
+                   'Wykres grafu w trakcie optymalizacji ścieżki 2-opt bez pogorszenia, \n nodes = ' + str(
+                       graph.num_of_nodes) + ' Iteracja: ' + str(iteration_no))
 
-        if old_cost == returned_dict['cost']:   # ToDo Fix this comparison of floats
+        if old_cost == returned_dict['cost']:  # ToDo Fix this comparison of floats
             iterations_until_break -= 1
         else:
             old_cost = returned_dict['cost']
             iterations_until_break = iterations_until_break_threshold
         times.append(measure_time())
+        iteration_no += 1
+    plot_graph(graph, cycle,
+               'Graf zoptymalizowany metodą 2-opt bez pogorszenia dla ' + str(
+                   graph.num_of_nodes) + ' węzłów. \n Iteracja: ' + str(iteration_no))
+
     return times
 
 
@@ -95,6 +107,9 @@ def optimization_2_opt_with_k_deterioration(graph: Graph, cycle: list, k: int, i
     old_cost = -1
     iterations_until_break = iterations_until_break_threshold
 
+    plot_graph(graph, cycle,
+               'Wykres grafu przed optymalizacją 2-opt z pogorszeniem, \n nodes = ' + str(graph.num_of_nodes))
+    iterations_no = 1
     times = []
     start_time()
     while iterations_until_break:
@@ -118,12 +133,21 @@ def optimization_2_opt_with_k_deterioration(graph: Graph, cycle: list, k: int, i
                 temp_ret['path'].remove(temp_ret['path'][index])
 
         print('Min cost: ', min(returned['cost']), ' len: ', len(returned['cost']), ' returned: ', returned)
-        if old_cost == min(returned['cost']):   # ToDo Fix this comparison of floats
+        if old_cost == min(returned['cost']):  # ToDo Fix this comparison of floats
             iterations_until_break -= 1
         else:
             old_cost = min(returned['cost'])
             iterations_until_break = iterations_until_break_threshold
         times.append(measure_time())
+        iterations_no += 1
+
+    min_cost = min(returned['cost'])
+    index = returned['cost'].index(min_cost)
+    end_cycle = returned['path'][index]
+
+    plot_graph(graph, end_cycle,
+               'Graf zoptymalizowany metodą 2-opt z pogorszeniem dla ' + str(
+                   graph.num_of_nodes) + ' węzłów. \n Iteracja: ' + str(iterations_no))
     return times
 
 
