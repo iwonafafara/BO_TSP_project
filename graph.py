@@ -9,8 +9,8 @@ class Graph:
         self.visited_nodes = [0 for i in range(0, num_of_nodes + 1)]
 
     def clear_visited_nodes(self):
-        for node in self.visited_nodes:
-            node = 0
+        for i in range(len(self.visited_nodes)):
+            self.visited_nodes[i] = 0
 
     def set_weight(self, node1, node2, weight):
         def replace_weight(list, node, weight):
@@ -31,6 +31,17 @@ class Graph:
             for nodeId2 in range(1, self.num_of_nodes + 1):
                 if not nodeId == nodeId2:
                     self.paths[nodeId].append([nodeId2, 0])
+
+    def calculate_cost(self, path: list):
+        def find_weight(source, destination):
+            for tuple in self.paths[source]:
+                if tuple[0] == destination:
+                    return tuple[1]
+
+        cost = 0
+        for i in range(self.num_of_nodes):
+            cost += find_weight(path[i], path[i + 1])
+        return cost
 
 
 # nodes: {nodeId: [x, y]}
@@ -54,8 +65,6 @@ class EuclideanGraph(Graph):
                     continue
                 distance = dist(nodes[nodeId], nodes[nodeId2])
                 self.paths[nodeId].append([nodeId2, distance])
-
-
 
 
 def nearest_neighbour_algorithm(graph: Graph):
@@ -100,3 +109,20 @@ def nearest_neighbour_algorithm(graph: Graph):
             break
 
     return visited_list
+
+
+def optimization_2_opt(graph: Graph, path: list):
+    best_cost = graph.calculate_cost(path)
+    best_path = path
+    for i in range(1, graph.num_of_nodes):
+        for j in range(i + 2, graph.num_of_nodes):
+            reversed_list = path[i:j]
+            reversed_list.reverse()
+            current_path = path[0:i] + reversed_list + path[j:]
+            current_cost = graph.calculate_cost(current_path)
+            if current_cost < best_cost:
+                best_cost = current_cost
+                best_path = current_path
+    return {'cost': best_cost, 'path': best_path}
+
+
