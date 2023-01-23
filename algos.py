@@ -66,7 +66,7 @@ def optimization_2_opt(graph: Graph, cycle: list, iterations_until_break_thresho
 
     plot_graph(graph, cycle,
                'Wykres grafu przed optymalizacją 2-opt bez pogorszenia, \n nodes = ' + str(graph.num_of_nodes),
-               'graf_przed_optymalizacja_2_opt_bez_pogorszenia_' + str(graph.num_of_nodes) +'wierzcholkow')
+               'graf_przed_optymalizacja_2_opt_bez_pogorszenia_' + str(graph.num_of_nodes) + 'wierzcholkow')
     iteration_no = 0
     times = []
     start_time()
@@ -78,7 +78,8 @@ def optimization_2_opt(graph: Graph, cycle: list, iterations_until_break_thresho
         plot_graph(graph, cycle,
                    'Wykres grafu w trakcie optymalizacji ścieżki 2-opt bez pogorszenia, \n nodes = ' + str(
                        graph.num_of_nodes) + ' Iteracja: ' + str(iteration_no),
-                   'graf_w_trakcie_optymalizacji_2_opt_bez_pogorszenia_' + str(graph.num_of_nodes) +'wierzcholkow_' + str(iteration_no))
+                   'graf_w_trakcie_optymalizacji_2_opt_bez_pogorszenia_' + str(
+                       graph.num_of_nodes) + 'wierzcholkow_' + str(iteration_no))
 
         if abs(old_cost - returned_dict['cost']) < np.finfo(float).eps:
             iterations_until_break -= 1
@@ -90,8 +91,7 @@ def optimization_2_opt(graph: Graph, cycle: list, iterations_until_break_thresho
     plot_graph(graph, cycle,
                'Graf zoptymalizowany metodą 2-opt bez pogorszenia dla ' + str(
                    graph.num_of_nodes) + ' węzłów. \n Po: ' + str(iteration_no) + ' iteracjach.',
-               'graf_po_optymalizacji_2_opt_bez_pogorszenia_' + str(graph.num_of_nodes) + 'wierzcholkow'
-    )
+               'graf_po_optymalizacji_2_opt_bez_pogorszenia_' + str(graph.num_of_nodes) + 'wierzcholkow')
     return times
 
 
@@ -114,7 +114,7 @@ def optimization_2_opt_with_k_deterioration(graph: Graph, cycle: list, k: int, i
 
     plot_graph(graph, cycle,
                'Wykres grafu przed optymalizacją 2-opt z pogorszeniem, \n nodes = ' + str(graph.num_of_nodes),
-               'graf_przed_optymalizacja_2_opt_z_pogorszeniem_' + str(graph.num_of_nodes) +'wierzcholkow')
+               'graf_przed_optymalizacja_2_opt_z_pogorszeniem_' + str(graph.num_of_nodes) + 'wierzcholkow')
     iterations_no = 0
     times = []
     start_time()
