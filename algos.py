@@ -128,15 +128,16 @@ def optimization_2_opt_with_k_deterioration(graph: Graph, cycle: list, k: int, i
         # Choose k-best paths and values to start calculations in next iteration
         returned['cost'] = []
         returned['path'] = []
-        for x in range(k):
-            if len(temp_ret['cost']) > 0:
-                min_cost = min(temp_ret['cost'])
-                index = temp_ret['cost'].index(min_cost)
-                if min_cost not in returned['cost']:
-                    returned['cost'].append(temp_ret['cost'][index])
-                    returned['path'].append(temp_ret['path'][index])
-                temp_ret['cost'].remove(temp_ret['cost'][index])
-                temp_ret['path'].remove(temp_ret['path'][index])
+        for x in range(len(temp_ret['cost'])):
+            if len(returned['cost']) >= k:
+                break
+            min_cost = min(temp_ret['cost'])
+            index = temp_ret['cost'].index(min_cost)
+            if temp_ret['path'][index] not in returned['path']:
+                returned['cost'].append(temp_ret['cost'][index])
+                returned['path'].append(temp_ret['path'][index])
+            temp_ret['cost'].remove(temp_ret['cost'][index])
+            temp_ret['path'].remove(temp_ret['path'][index])
 
         print('Min cost: ', min(returned['cost']), ' len: ', len(returned['cost']), ' returned: ', returned)
         if abs(old_cost - min(returned['cost'])) < np.finfo(float).eps:
