@@ -27,3 +27,15 @@ def plot_graph(graph, path: list, title: str, filename: str):
     plt.title(title)
     plt.savefig('plots/' + filename + '.png')
     plt.show()
+
+
+def plot_iterations_to_k(iterations_list, k_list, num_of_nodes):
+    pass
+
+
+def plot_cost_to_k(costs_list, k_list, num_of_nodes):
+    pass
+
+
+def plot_time_per_iteration(time_list, time_k_list, k, num_of_nodes):
+    pass
