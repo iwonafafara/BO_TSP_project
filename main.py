@@ -34,7 +34,7 @@ def compare_costs_and_times_on_different_graphs():
         first_cycle = nearest_neighbour_algorithm(g)
         timers, min_cost, iterations = optimization_2_opt(g, first_cycle, 5)
         timers_k, min_cost_k, iterations_k  = optimization_2_opt_with_k_deterioration(g, first_cycle, k, iterations_until_break_threshold=5)
-        print('Graph with ', g.num_of_nodes, ' nodes:')
+        print('Graph with ', g.num_of_nodes, ' nodes, optimal solution: ', g.optimal_solution)
         print('Algorithm without deterioration: ')
         print('Min_cost: ', min_cost, ' Iterations: ', iterations, f' Total time: {sum(timers):.03f}ms')
         print('Times: ', timers)
@@ -49,7 +49,28 @@ def compare_costs_and_times_on_different_graphs():
         test_graph(g)
 
 
+def incrementing_k_on_specific_graph(max_k=15):
+    g = get_graph3()
+    first_cycle = nearest_neighbour_algorithm(g)
+    total_times = []
+    min_costs = []
+    iterations = []
+    k_parameter = []
+    for k in range(1, max_k + 1):
+        timers, min_cost, iterations_no = optimization_2_opt_with_k_deterioration(g, first_cycle, k,
+                                                                                 iterations_until_break_threshold=5)
+        k_parameter.append(k)
+        total_times.append(sum(timers))
+        min_costs.append(min_cost)
+        iterations.append(iterations_no)
+    print('Incrementing k parameter on graph with ', g.num_of_nodes, ' nodes')
+    print('k:\t\t\t', k_parameter)
+    print('Costs:\t\t', min_costs)
+    print('Iterations:\t', iterations)
+
+
 if __name__ == '__main__':
     # tsplib_import_example()
     # old_opt_2()
-    compare_costs_and_times_on_different_graphs()
+    # compare_costs_and_times_on_different_graphs()
+    incrementing_k_on_specific_graph(15)

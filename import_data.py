@@ -1,5 +1,6 @@
 import tsplib95
 import graph
+import math
 
 
 # odczytanie i korzystanie z danych potrzebnych do stworzenia grafów
@@ -25,11 +26,15 @@ def get_normal_graph_with_weights(filename):
 def get_graph1():
     file1_coord = graphs_directory + 'ulysses16.tsp'
     data_coord = tsplib95.load(file1_coord)
-    return graph.EuclideanGraph(data_coord.dimension, data_coord.node_coords)
+    g = graph.EuclideanGraph(data_coord.dimension, data_coord.node_coords)
+    g.optimal_solution = math.sqrt(6859)
+    return g
 
 
 def get_graph2():
-    return get_normal_graph_with_weights('gr24.tsp')
+    g = get_normal_graph_with_weights('gr24.tsp')
+    g.optimal_solution = 1272
+    return g
 
 
 def get_graph3():
@@ -37,26 +42,35 @@ def get_graph3():
     data_coord3 = tsplib95.load(file3_coord)
     g = graph.EuclideanGraph(data_coord3.dimension, data_coord3.display_data)
     set_weights(data_coord3.edge_weights, g)
+    g.optimal_solution = 1610
     return g
 
 
 def get_graph4():
-    return get_normal_graph_with_weights('gr48.tsp')
+    g = get_normal_graph_with_weights('gr48.tsp')
+    g.optimal_solution = 5046
+    return g
 
 
 def get_graph5():
     file5_coord = graphs_directory + 'u1060.tsp'
     data_coord5 = tsplib95.load(file5_coord)
-    return graph.EuclideanGraph(data_coord5.dimension, data_coord5.node_coords)
+    g = graph.EuclideanGraph(data_coord5.dimension, data_coord5.node_coords)
+    g.optimal_solution = 224094
+    return g
 
 
 def get_graph6():
     file6_coord = graphs_directory + 'a280.tsp'
     data_coord6 = tsplib95.load(file6_coord)
-    return graph.EuclideanGraph(data_coord6.dimension, data_coord6.node_coords)
+    g = graph.EuclideanGraph(data_coord6.dimension, data_coord6.node_coords)
+    g.optimal_solution = 2579
+    return g
 
 
 def get_graph7():
     file7_coord = graphs_directory + 'kroA100.tsp'
     data_coord7 = tsplib95.load(file7_coord)
-    return graph.EuclideanGraph(data_coord7.dimension, data_coord7.node_coords)
+    g = graph.EuclideanGraph(data_coord7.dimension, data_coord7.node_coords)
+    g.optimal_solution = 21282
+    return g

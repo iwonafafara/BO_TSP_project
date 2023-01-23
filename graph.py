@@ -7,6 +7,7 @@ class Graph:
         self.num_of_nodes = num_of_nodes
         self.paths = paths
         self.visited_nodes = [0 for i in range(0, num_of_nodes + 1)]
+        self.optimal_solution = 0
 
     def clear_visited_nodes(self):
         for i in range(len(self.visited_nodes)):
