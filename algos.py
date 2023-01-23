@@ -69,9 +69,10 @@ def optimization_2_opt(graph: Graph, cycle: list, iterations_until_break_thresho
                'graf_przed_optymalizacja_2_opt_bez_pogorszenia_' + str(graph.num_of_nodes) + 'wierzcholkow')
     iteration_no = 0
     times = []
-    start_time()
     while iterations_until_break:
+        start_time()
         returned_dict = optimization_2_opt_worker(graph, cycle)
+        times.append(measure_time())
         print(returned_dict)
         cycle = returned_dict['path']
         iteration_no += 1
@@ -86,13 +87,13 @@ def optimization_2_opt(graph: Graph, cycle: list, iterations_until_break_thresho
         else:
             old_cost = returned_dict['cost']
             iterations_until_break = iterations_until_break_threshold
-        times.append(measure_time())
 
+    iterations = iteration_no - iterations_until_break_threshold + 1
     plot_graph(graph, cycle,
                'Graf zoptymalizowany metodą 2-opt bez pogorszenia dla ' + str(
-                   graph.num_of_nodes) + ' węzłów. \n Po: ' + str(iteration_no) + ' iteracjach.',
+                   graph.num_of_nodes) + ' węzłów. \n Po: ' + str(iterations) + ' iteracjach.',
                'graf_po_optymalizacji_2_opt_bez_pogorszenia_' + str(graph.num_of_nodes) + 'wierzcholkow')
-    return times
+    return times[:iterations], old_cost, iterations
 
 
 def optimization_2_opt_worker(graph: Graph, path: list):
@@ -117,8 +118,8 @@ def optimization_2_opt_with_k_deterioration(graph: Graph, cycle: list, k: int, i
                'graf_przed_optymalizacja_2_opt_z_pogorszeniem_' + str(graph.num_of_nodes) + 'wierzcholkow')
     iterations_no = 0
     times = []
-    start_time()
     while iterations_until_break:
+        start_time()
         temp_ret = {'cost': [], 'path': []}
         for path in returned['path']:
             temp = optimization_2_opt_with_k_deterioration_worker(graph, path, k)
@@ -139,24 +140,25 @@ def optimization_2_opt_with_k_deterioration(graph: Graph, cycle: list, k: int, i
             temp_ret['cost'].remove(temp_ret['cost'][index])
             temp_ret['path'].remove(temp_ret['path'][index])
 
+        times.append(measure_time())
         print('Min cost: ', min(returned['cost']), ' len: ', len(returned['cost']), ' returned: ', returned)
         if abs(old_cost - min(returned['cost'])) < np.finfo(float).eps:
             iterations_until_break -= 1
         else:
             old_cost = min(returned['cost'])
             iterations_until_break = iterations_until_break_threshold
-        times.append(measure_time())
         iterations_no += 1
 
     min_cost = min(returned['cost'])
     index = returned['cost'].index(min_cost)
     end_cycle = returned['path'][index]
 
+    iterations = iterations_no - iterations_until_break_threshold + 1
     plot_graph(graph, end_cycle,
                'Graf zoptymalizowany metodą 2-opt z pogorszeniem dla ' + str(
-                   graph.num_of_nodes) + ' węzłów. \n Po: ' + str(iterations_no) + ' iteracjach.',
+                   graph.num_of_nodes) + ' węzłów. \n Po: ' + str(iterations) + ' iteracjach.',
                'graf_po_optymalizacji_2_opt_z_pogorszeniem_' + str(graph.num_of_nodes) + 'wierzcholkow')
-    return times
+    return times[:iterations], min_cost, iterations
 
 
 def optimization_2_opt_with_k_deterioration_worker(graph: Graph, path: list, considered_items_no=3):

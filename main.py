@@ -29,14 +29,24 @@ def old_opt_2():
 
 
 def compare_costs_and_times_on_different_graphs():
-    g = get_graph4()
-    k = 5
-    first_cycle = nearest_neighbour_algorithm(g)
-    timers_without_deterioration = optimization_2_opt(g, first_cycle, 5)
-    timers_with_deterioration = optimization_2_opt_with_k_deterioration(g, first_cycle, k, iterations_until_break_threshold=5)
-    print('Graph with ', g.num_of_nodes, ':')
-    print('Times without deterioration: ', timers_without_deterioration)
-    print('Times with ', k, ' deterioration:', timers_with_deterioration)
+    def test_graph(g: Graph):
+        k = 5
+        first_cycle = nearest_neighbour_algorithm(g)
+        timers, min_cost, iterations = optimization_2_opt(g, first_cycle, 5)
+        timers_k, min_cost_k, iterations_k  = optimization_2_opt_with_k_deterioration(g, first_cycle, k, iterations_until_break_threshold=5)
+        print('Graph with ', g.num_of_nodes, ' nodes:')
+        print('Algorithm without deterioration: ')
+        print('Min_cost: ', min_cost, ' Iterations: ', iterations, f' Total time: {sum(timers):.03f}ms')
+        print('Times: ', timers)
+        print('Algorithm with ', k, ' deterioration: ')
+        print('Min_cost: ', min_cost_k, ' Iterations: ', iterations_k, f' Total time: {sum(timers_k):.03f}ms')
+        print('Times: ', timers_k)
+        print('\n\n\n')
+
+    graphs_to_test = [get_graph1(), get_graph2(), get_graph3()]
+    for g in graphs_to_test:
+        print(g)
+        test_graph(g)
 
 
 if __name__ == '__main__':
