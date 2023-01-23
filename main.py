@@ -2,7 +2,7 @@ import graph
 from graph import Graph, EuclideanGraph
 from algos import nearest_neighbour_algorithm, optimization_2_opt, optimization_2_opt_with_k_deterioration
 from import_data import get_graph1, get_graph2, get_graph3, get_graph4, get_graph5, get_graph6, get_graph7
-from plot import plot_graph, plot_iterations_to_k, plot_cost_to_k, plot_time_per_iteration
+from plot import plot_graph, plot_iterations_to_k, plot_cost_to_k, plot_time_per_iteration, plot_iterations_to_graph_size
 from timer import start_time, stop_time, measure_time
 
 
@@ -42,12 +42,20 @@ def compare_costs_and_times_on_different_graphs():
         print('Min_cost: ', min_cost_k, ' Iterations: ', iterations_k, f' Total time: {sum(timers_k):.03f}ms')
         print('Times: ', timers_k)
         print('\n\n\n')
-        plot_time_per_iteration(timers, timers_k, k, g.num_of_nodes)
+        # plot_time_per_iteration(timers, timers_k, k, g.num_of_nodes)
+        return g.num_of_nodes, iterations, iterations_k
 
-    graphs_to_test = [get_graph1(), get_graph2(), get_graph3()]
+    graphs_to_test = [get_graph1(), get_graph3(), get_graph4(), get_graph7(), get_graph6()]
+    graph_size = []
+    iterations_list = []
+    iterations_k_list = []
     for g in graphs_to_test:
         print(g)
-        test_graph(g)
+        node_num, iterations, iterations_k = test_graph(g)
+        graph_size.append(node_num)
+        iterations_list.append(iterations)
+        iterations_k_list.append(iterations_k)
+    plot_iterations_to_graph_size(iterations_list, iterations_k_list, graph_size)
 
 
 def incrementing_k_on_specific_graph(max_k=15):
@@ -69,11 +77,11 @@ def incrementing_k_on_specific_graph(max_k=15):
     print('Costs:\t\t', min_costs)
     print('Iterations:\t', iterations)
     plot_iterations_to_k(iterations, k_parameter, g.num_of_nodes)
-    plot_cost_to_k(min_costs, k_parameter, g.num_of_nodes)
+    plot_cost_to_k(min_costs, k_parameter, g.num_of_nodes, g.optimal_solution)
 
 
 if __name__ == '__main__':
     # tsplib_import_example()
     # old_opt_2()
-    # compare_costs_and_times_on_different_graphs()
-    incrementing_k_on_specific_graph(15)
+    compare_costs_and_times_on_different_graphs()
+    # incrementing_k_on_specific_graph(15)
