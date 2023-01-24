@@ -30,7 +30,12 @@ def plot_graph(graph, path: list, title: str, filename: str):
 
 
 def plot_iterations_to_k(iterations_list, k_list, num_of_nodes):
-    pass
+    plt.plot(k_list, iterations_list, '-')
+    plt.xlabel('Parametr k')
+    plt.ylabel('Ilość iteracji')
+    plt.title('Wykres zależności ilości iteracji od parametru k \n dla grafu o liczbie węzłów: ' + str(num_of_nodes))
+    plt.savefig('plots/iteracje_od_k_' + str(num_of_nodes) + ' wierzcholkow.png')
+    plt.show()
 
 
 def plot_cost_to_k(costs_list, k_list, num_of_nodes, optimal_cost):

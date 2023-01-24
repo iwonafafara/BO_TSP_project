@@ -45,11 +45,12 @@ def compare_costs_and_times_on_different_graphs():
         # plot_time_per_iteration(timers, timers_k, k, g.num_of_nodes)
         return g.num_of_nodes, iterations, iterations_k
 
-    graphs_to_test = [get_graph1(), get_graph3(), get_graph4(), get_graph7(), get_graph6()]
+    # graphs_to_test = [get_graph1(), get_graph3(), get_graph4(), get_graph7(), get_graph6()]
+    graphs_to_test_on_presentation = [get_graph1(), get_graph2(), get_graph3()]
     graph_size = []
     iterations_list = []
     iterations_k_list = []
-    for g in graphs_to_test:
+    for g in graphs_to_test_on_presentation:
         print(g)
         node_num, iterations, iterations_k = test_graph(g)
         graph_size.append(node_num)
@@ -59,7 +60,7 @@ def compare_costs_and_times_on_different_graphs():
 
 
 def incrementing_k_on_specific_graph(max_k=15):
-    g = get_graph3()
+    g = get_graph2()
     first_cycle = nearest_neighbour_algorithm(g)
     total_times = []
     min_costs = []
@@ -78,10 +79,9 @@ def incrementing_k_on_specific_graph(max_k=15):
     print('Iterations:\t', iterations)
     plot_iterations_to_k(iterations, k_parameter, g.num_of_nodes)
     plot_cost_to_k(min_costs, k_parameter, g.num_of_nodes, g.optimal_solution)
+    print("End")
 
 
 if __name__ == '__main__':
-    # tsplib_import_example()
-    # old_opt_2()
     compare_costs_and_times_on_different_graphs()
-    # incrementing_k_on_specific_graph(15)
+    incrementing_k_on_specific_graph(15)

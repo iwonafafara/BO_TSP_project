@@ -5,9 +5,11 @@ import numpy as np
 
 
 def nearest_neighbour_algorithm(graph: Graph):
+    # comarator wyciąga z tupli samą wagę krawędzi
     def sorting_comparator(weight_record: []):
         return weight_record[1]
 
+    # fun sprawdzająca czy z ostatniego wierzchołka da się dojść do początkowego
     def is_last_node_valid(node_id):
         last_node_neighbours = graph.paths[node_id]
         for neighbour in last_node_neighbours:
@@ -17,14 +19,14 @@ def nearest_neighbour_algorithm(graph: Graph):
 
     graph.clear_visited_nodes()
 
-    # every node will be taken exactly once, so we are choosing node 1 to start hamiltionian cycle
+    # dowolnie wybieramy wierzchołek początkowy dla cyklu Hamiltona, ponieważ i tak przez niego przejdzie
     current_node_id = 1
     visited_list = [current_node_id]
     graph.visited_nodes[current_node_id] = 1
 
     while True:
-        sorted_neighbours_list = sorted(graph.paths[current_node_id], key=sorting_comparator)
         old_node_id = current_node_id
+        sorted_neighbours_list = sorted(graph.paths[current_node_id], key=sorting_comparator)
         for candidate in sorted_neighbours_list:
             if graph.visited_nodes[candidate[0]] == 0:
                 current_node_id = candidate[0]
