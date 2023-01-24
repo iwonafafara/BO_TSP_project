@@ -1,31 +1,7 @@
-import graph
 from graph import Graph, EuclideanGraph
 from algos import nearest_neighbour_algorithm, optimization_2_opt, optimization_2_opt_with_k_deterioration
 from import_data import get_graph1, get_graph2, get_graph3, get_graph4, get_graph5, get_graph6, get_graph7
 from plot import plot_graph, plot_iterations_to_k, plot_cost_to_k, plot_time_per_iteration, plot_iterations_to_graph_size
-from timer import start_time, stop_time, measure_time
-
-
-def tsplib_import_example():
-    g = get_graph3()
-    print(nearest_neighbour_algorithm(g))
-
-    cycle = nearest_neighbour_algorithm(g)
-    print(cycle)
-
-    timers = optimization_2_opt_with_k_deterioration(g, cycle, k=10, iterations_until_break_threshold=5)
-    print(timers)
-
-
-def old_opt_2():
-    g = get_graph3()
-    print(nearest_neighbour_algorithm(g))
-
-    cycle = nearest_neighbour_algorithm(g)
-    print(cycle)
-
-    timers = optimization_2_opt(g, cycle, 5)
-    print(timers)
 
 
 def compare_costs_and_times_on_different_graphs():
