@@ -39,7 +39,7 @@ def plot_cost_to_k(costs_list, k_list, num_of_nodes, optimal_cost):
     plt.plot(k_list, costs_list)
     plt.plot(optimal_x, optimal_y)
     plt.title('Koszt w zależności od parametru k dla grafu o ' + str(num_of_nodes) + 'wierzchołkach')
-    plt.savefig('plots/czas_od_k_' + str(num_of_nodes) + ' wierzcholkow.png')
+    plt.savefig('plots/koszt_od_k_' + str(num_of_nodes) + ' wierzcholkow.png')
     plt.show()
 
 
